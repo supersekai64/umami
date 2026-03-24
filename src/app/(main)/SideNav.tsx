@@ -8,9 +8,8 @@ import {
   ThemeButton,
 } from '@umami/react-zen';
 import Link from 'next/link';
-import type { Key } from 'react';
 import { useGlobalState, useMessages, useNavigation } from '@/components/hooks';
-import { Globe, Grid2x2, LinkIcon, PanelLeft } from '@/components/icons';
+import { Globe, PanelLeft } from '@/components/icons';
 import { LanguageButton } from '@/components/input/LanguageButton';
 import { NavButton } from '@/components/input/NavButton';
 import { PanelButton } from '@/components/input/PanelButton';
@@ -18,10 +17,10 @@ import { Logo } from '@/components/svg';
 
 export function SideNav(props: SidebarProps) {
   const { formatMessage, labels } = useMessages();
-  const { pathname, renderUrl, websiteId, router } = useNavigation();
+  const { pathname, renderUrl } = useNavigation();
   const [isCollapsed, setIsCollapsed] = useGlobalState('sidenav-collapsed');
 
-  const hasNav = !!(websiteId || pathname.startsWith('/admin') || pathname.includes('/settings'));
+  const hasNav = !!(pathname.startsWith('/admin') || pathname.includes('/settings') || pathname.includes('/websites/'));
 
   const links = [
     {
@@ -30,23 +29,7 @@ export function SideNav(props: SidebarProps) {
       path: '/websites',
       icon: <Globe />,
     },
-    {
-      id: 'links',
-      label: formatMessage(labels.links),
-      path: '/links',
-      icon: <LinkIcon />,
-    },
-    {
-      id: 'pixels',
-      label: formatMessage(labels.pixels),
-      path: '/pixels',
-      icon: <Grid2x2 />,
-    },
   ];
-
-  const handleSelect = (id: Key) => {
-    router.push(id === 'user' ? '/websites' : `/teams/${id}/websites`);
-  };
 
   return (
     <Sidebar {...props} isCollapsed={isCollapsed || hasNav} backgroundColor>
@@ -60,7 +43,7 @@ export function SideNav(props: SidebarProps) {
         </SidebarHeader>
       </SidebarSection>
       <SidebarSection paddingTop="0" paddingBottom="0" justifyContent="center">
-        <NavButton showText={!hasNav && !isCollapsed} onAction={handleSelect} />
+        <NavButton showText={!hasNav && !isCollapsed} />
       </SidebarSection>
       <SidebarSection flexGrow={1}>
         {links.map(({ id, path, label, icon }) => {

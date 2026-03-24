@@ -2,7 +2,7 @@ import { Grid, IconLabel, NavMenu, NavMenuItem, Row, Text } from '@umami/react-z
 import Link from 'next/link';
 import { WebsiteNav } from '@/app/(main)/websites/[websiteId]/WebsiteNav';
 import { useMessages, useNavigation } from '@/components/hooks';
-import { Globe, Grid2x2, LinkIcon } from '@/components/icons';
+import { Globe } from '@/components/icons';
 import { MobileMenuButton } from '@/components/input/MobileMenuButton';
 import { NavButton } from '@/components/input/NavButton';
 import { Logo } from '@/components/svg';
@@ -21,18 +21,6 @@ export function MobileNav() {
       label: formatMessage(labels.websites),
       path: '/websites',
       icon: <Globe />,
-    },
-    {
-      id: 'links',
-      label: formatMessage(labels.links),
-      path: '/links',
-      icon: <LinkIcon />,
-    },
-    {
-      id: 'pixels',
-      label: formatMessage(labels.pixels),
-      path: '/pixels',
-      icon: <Grid2x2 />,
     },
   ];
 

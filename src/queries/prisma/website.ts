@@ -1,5 +1,4 @@
 import type { Prisma } from '@/generated/prisma/client';
-import { ROLES } from '@/lib/constants';
 import prisma from '@/lib/prisma';
 import redis from '@/lib/redis';
 import type { QueryFilters } from '@/lib/types';
@@ -43,20 +42,16 @@ export async function getWebsites(criteria: Prisma.WebsiteFindManyArgs, filters:
   return pagedQuery('website', { ...criteria, where }, filters);
 }
 
-export async function getAllUserWebsitesIncludingTeamOwner(userId: string, filters?: QueryFilters) {
+export async function getAllUserWebsites(userId: string, filters?: QueryFilters) {
   return getWebsites(
     {
       where: {
         OR: [
           { userId },
           {
-            team: {
-              deletedAt: null,
-              members: {
-                some: {
-                  role: ROLES.teamOwner,
-                  userId,
-                },
+            websiteUsers: {
+              some: {
+                userId,
               },
             },
           },
@@ -89,25 +84,6 @@ export async function getUserWebsites(userId: string, filters?: QueryFilters) {
       orderBy: 'name',
       ...filters,
     },
-  );
-}
-
-export async function getTeamWebsites(teamId: string, filters?: QueryFilters) {
-  return getWebsites(
-    {
-      where: {
-        teamId,
-      },
-      include: {
-        createUser: {
-          select: {
-            id: true,
-            username: true,
-          },
-        },
-      },
-    },
-    filters,
   );
 }
 
@@ -199,6 +175,9 @@ export async function deleteWebsite(websiteId: string) {
         where: { websiteId },
       }),
       client.segment.deleteMany({
+        where: { websiteId },
+      }),
+      client.websiteUser.deleteMany({
         where: { websiteId },
       }),
       cloudMode

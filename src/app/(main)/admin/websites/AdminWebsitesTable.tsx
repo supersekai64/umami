@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { WebsiteDeleteForm } from '@/app/(main)/websites/[websiteId]/settings/WebsiteDeleteForm';
 import { DateDistance } from '@/components/common/DateDistance';
 import { useMessages } from '@/components/hooks';
-import { Edit, Trash, Users } from '@/components/icons';
+import { Edit, Trash } from '@/components/icons';
 import { MenuButton } from '@/components/input/MenuButton';
 
 export function AdminWebsitesTable({ data = [] }: { data: any[] }) {
@@ -25,25 +25,11 @@ export function AdminWebsitesTable({ data = [] }: { data: any[] }) {
           {(row: any) => <Text truncate>{row.domain}</Text>}
         </DataColumn>
         <DataColumn id="owner" label={formatMessage(labels.owner)}>
-          {(row: any) => {
-            if (row?.team) {
-              return (
-                <Row alignItems="center" gap>
-                  <Icon>
-                    <Users />
-                  </Icon>
-                  <Text truncate>
-                    <Link href={`/admin/teams/${row?.team?.id}`}>{row?.team?.name}</Link>
-                  </Text>
-                </Row>
-              );
-            }
-            return (
-              <Text truncate>
-                <Link href={`/admin/users/${row?.user?.id}`}>{row?.user?.username}</Link>
-              </Text>
-            );
-          }}
+          {(row: any) => (
+            <Text truncate>
+              <Link href={`/admin/users/${row?.user?.id}`}>{row?.user?.username}</Link>
+            </Text>
+          )}
         </DataColumn>
         <DataColumn id="created" label={formatMessage(labels.created)} width="180px">
           {(row: any) => <DateDistance date={new Date(row.createdAt)} />}

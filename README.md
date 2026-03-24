@@ -5,21 +5,28 @@
 <h1 align="center">Umami</h1>
 
 <p align="center">
-  <i>Umami is a simple, fast, privacy-focused alternative to Google Analytics.</i>
-</p>
-
-<p align="center">
-  <a href="https://github.com/umami-software/umami/releases"><img src="https://img.shields.io/github/release/umami-software/umami.svg" alt="GitHub Release" /></a>
-  <a href="https://github.com/umami-software/umami/blob/master/LICENSE"><img src="https://img.shields.io/github/license/umami-software/umami.svg" alt="MIT License" /></a>
-  <a href="https://github.com/umami-software/umami/actions"><img src="https://img.shields.io/github/actions/workflow/status/umami-software/umami/ci.yml" alt="Build Status" /></a>
-  <a href="https://analytics.umami.is/share/LGazGOecbDtaIwDr/umami.is" style="text-decoration: none;"><img src="https://img.shields.io/badge/Try%20Demo%20Now-Click%20Here-brightgreen" alt="Umami Demo" /></a>
+  <i>Umami is a simple, fast, privacy-focused web analytics platform.</i>
 </p>
 
 ---
 
-## 🚀 Getting Started
+## 📋 Overview
 
-A detailed getting started guide can be found at [umami.is/docs](https://umami.is/docs/).
+This is a customized build of Umami. The system has been simplified to a two-role model:
+
+- **Admin**: creates and manages all websites, manages user accounts.
+- **User**: can only view and export analytics statistics for the websites configured by the admin.
+
+### What was removed from the original Umami
+
+- **Links** (link tracking / short links)
+- **Pixels** (pixel tracking)
+- **Teams** (multi-team management and team roles)
+- **Website transfer** between users/teams
+
+---
+
+## 🚀 Getting Started
 
 ---
 
@@ -33,7 +40,7 @@ A detailed getting started guide can be found at [umami.is/docs](https://umami.i
 ### Get the source code and install packages
 
 ```bash
-git clone https://github.com/umami-software/umami.git
+git clone <this-repo>
 cd umami
 pnpm install
 ```
@@ -72,16 +79,6 @@ By default, this will launch the application on `http://localhost:3000`. You wil
 
 ## 🐳 Installing with Docker
 
-Umami provides Docker images as well as a Docker compose file for easy deployment.
-
-Docker image:
-
-```bash
-docker pull docker.umami.is/umami-software/umami:latest
-```
-
-Docker compose (Runs Umami with a PostgreSQL database):
-
 ```bash
 docker compose up -d
 ```
@@ -90,43 +87,31 @@ docker compose up -d
 
 ## 🔄 Getting Updates
 
-To get the latest features, simply do a pull, install any new dependencies, and rebuild:
-
 ```bash
 git pull
 pnpm install
 pnpm build
 ```
 
-To update the Docker image, simply pull the new images and rebuild:
+---
 
-```bash
-docker compose pull
-docker compose up --force-recreate -d
-```
+## 👥 User Management
+
+### Roles
+
+| Role  | Capabilities |
+|-------|-------------|
+| `admin` | Create / edit / delete websites; manage all users |
+| `user`  | View and export analytics for all configured websites (read-only) |
+
+### Adding users
+
+The admin can create new user accounts from the **Admin → Users** panel. All users automatically have read-only access to every website.
 
 ---
 
-## 🛟 Support
+## 🔒 Security Summary
 
-<p align="center">
-  <a href="https://github.com/umami-software/umami"><img src="https://img.shields.io/badge/GitHub--blue?style=social&logo=github" alt="GitHub" /></a>
-  <a href="https://twitter.com/umami_software"><img src="https://img.shields.io/badge/Twitter--blue?style=social&logo=twitter" alt="Twitter" /></a>
-  <a href="https://linkedin.com/company/umami-software"><img src="https://img.shields.io/badge/LinkedIn--blue?style=social&logo=linkedin" alt="LinkedIn" /></a>
-  <a href="https://umami.is/discord"><img src="https://img.shields.io/badge/Discord--blue?style=social&logo=discord" alt="Discord" /></a>
-</p>
-
-[release-shield]: https://img.shields.io/github/release/umami-software/umami.svg
-[releases-url]: https://github.com/umami-software/umami/releases
-[license-shield]: https://img.shields.io/github/license/umami-software/umami.svg
-[license-url]: https://github.com/umami-software/umami/blob/master/LICENSE
-[build-shield]: https://img.shields.io/github/actions/workflow/status/umami-software/umami/ci.yml
-[build-url]: https://github.com/umami-software/umami/actions
-[github-shield]: https://img.shields.io/badge/GitHub--blue?style=social&logo=github
-[github-url]: https://github.com/umami-software/umami
-[twitter-shield]: https://img.shields.io/badge/Twitter--blue?style=social&logo=twitter
-[twitter-url]: https://twitter.com/umami_software
-[linkedin-shield]: https://img.shields.io/badge/LinkedIn--blue?style=social&logo=linkedin
-[linkedin-url]: https://linkedin.com/company/umami-software
-[discord-shield]: https://img.shields.io/badge/Discord--blue?style=social&logo=discord
-[discord-url]: https://discord.com/invite/4dz4zcXYrQ
+- Users cannot create, update, or delete websites.
+- Only the admin can manage website settings.
+- All authenticated users can view analytics for any website.
