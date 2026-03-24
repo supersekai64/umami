@@ -27,6 +27,7 @@ model User {
   pixels    Pixel[]    @relation("user")
   teams     TeamUser[]
   reports   Report[]
+  websiteUsers WebsiteUser[]
 
   @@map("user")
 }
@@ -84,6 +85,7 @@ model Website {
   revenue     Revenue[]
   segments    Segment[]
   sessionData SessionData[]
+  websiteUsers WebsiteUser[]
 
   @@index([userId])
   @@index([teamId])
@@ -218,6 +220,23 @@ model TeamUser {
   @@index([teamId])
   @@index([userId])
   @@map("team_user")
+}
+
+model WebsiteUser {
+  id        String    @id() @unique() @map("website_user_id") @db.Uuid
+  websiteId String    @map("website_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  role      String    @db.VarChar(50)
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  website Website @relation(fields: [websiteId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([websiteId, userId])
+  @@index([websiteId])
+  @@index([userId])
+  @@map("website_user")
 }
 
 model Report {

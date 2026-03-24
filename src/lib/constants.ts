@@ -134,6 +134,8 @@ export const ROLES = {
   teamManager: 'team-manager',
   teamMember: 'team-member',
   teamViewOnly: 'team-view-only',
+  websiteEdit: 'website-edit',
+  websiteView: 'website-view',
 } as const;
 
 export const PERMISSIONS = {
@@ -179,6 +181,8 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.websiteDelete,
   ],
   [ROLES.teamViewOnly]: [],
+  [ROLES.websiteEdit]: [PERMISSIONS.websiteUpdate],
+  [ROLES.websiteView]: [],
 } as const;
 
 export const THEME_COLORS = {

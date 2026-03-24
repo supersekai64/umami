@@ -363,6 +363,11 @@ export const labels = defineMessages({
   support: { id: 'label.support', defaultMessage: 'Support' },
   documentation: { id: 'label.documentation', defaultMessage: 'Documentation' },
   switchAccount: { id: 'label.switch-account', defaultMessage: 'Switch account' },
+  websiteEdit: { id: 'label.website-edit', defaultMessage: 'Can edit' },
+  websiteView: { id: 'label.website-view', defaultMessage: 'Can view' },
+  sharedUsers: { id: 'label.shared-users', defaultMessage: 'Shared users' },
+  addUser: { id: 'label.add-user', defaultMessage: 'Add user' },
+  removeUser: { id: 'label.remove-user', defaultMessage: 'Remove user' },
 });
 
 export const messages = defineMessages({
@@ -514,5 +519,9 @@ export const messages = defineMessages({
   serverError: {
     id: 'message.sever-error',
     defaultMessage: 'Server error',
+  },
+  noSharedUsers: {
+    id: 'message.no-shared-users',
+    defaultMessage: 'No users have been added.',
   },
 });

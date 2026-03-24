@@ -60,6 +60,13 @@ export async function getAllUserWebsitesIncludingTeamOwner(userId: string, filte
               },
             },
           },
+          {
+            websiteUsers: {
+              some: {
+                userId,
+              },
+            },
+          },
         ],
       },
     },
@@ -199,6 +206,9 @@ export async function deleteWebsite(websiteId: string) {
         where: { websiteId },
       }),
       client.segment.deleteMany({
+        where: { websiteId },
+      }),
+      client.websiteUser.deleteMany({
         where: { websiteId },
       }),
       cloudMode

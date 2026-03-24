@@ -1,7 +1,7 @@
 import { hasPermission } from '@/lib/auth';
 import { PERMISSIONS } from '@/lib/constants';
 import type { Auth } from '@/lib/types';
-import { getLink, getPixel, getTeamUser, getWebsite } from '@/queries/prisma';
+import { getLink, getPixel, getTeamUser, getWebsite, getWebsiteUser } from '@/queries/prisma';
 
 export async function canViewWebsite({ user, shareToken }: Auth, websiteId: string) {
   if (user?.isAdmin) {
@@ -23,7 +23,13 @@ export async function canViewWebsite({ user, shareToken }: Auth, websiteId: stri
   }
 
   if (entity.userId) {
-    return user.id === entity.userId;
+    if (user.id === entity.userId) {
+      return true;
+    }
+
+    const websiteUser = await getWebsiteUser(websiteId, user.id);
+
+    return !!websiteUser;
   }
 
   if (entity.teamId) {
@@ -59,7 +65,13 @@ export async function canUpdateWebsite({ user }: Auth, websiteId: string) {
   }
 
   if (website.userId) {
-    return user.id === website.userId;
+    if (user.id === website.userId) {
+      return true;
+    }
+
+    const websiteUser = await getWebsiteUser(websiteId, user.id);
+
+    return websiteUser ? hasPermission(websiteUser.role, PERMISSIONS.websiteUpdate) : false;
   }
 
   if (website.teamId) {
@@ -125,4 +137,18 @@ export async function canTransferWebsiteToTeam({ user }: Auth, websiteId: string
   }
 
   return false;
+}
+
+export async function canManageWebsiteUsers({ user }: Auth, websiteId: string) {
+  if (user.isAdmin) {
+    return true;
+  }
+
+  const website = await getWebsite(websiteId);
+
+  if (!website) {
+    return false;
+  }
+
+  return website.userId === user.id;
 }

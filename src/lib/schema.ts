@@ -60,6 +60,8 @@ export const userRoleParam = z.enum(['admin', 'user', 'view-only']);
 
 export const teamRoleParam = z.enum(['team-member', 'team-view-only', 'team-manager']);
 
+export const websiteRoleParam = z.enum(['website-edit', 'website-view']);
+
 export const anyObjectParam = z.record(z.string(), z.any());
 
 export const urlOrPathParam = z.string().refine(
