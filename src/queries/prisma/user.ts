@@ -1,5 +1,4 @@
 import { Prisma } from '@/generated/prisma/client';
-import { ROLES } from '@/lib/constants';
 import { getRandomChars } from '@/lib/generate';
 import prisma from '@/lib/prisma';
 import type { QueryFilters, Role } from '@/lib/types';
@@ -113,19 +112,6 @@ export async function deleteUser(userId: string) {
     websiteIds = websites.map(a => a.id);
   }
 
-  const teams = await client.team.findMany({
-    where: {
-      members: {
-        some: {
-          userId,
-          role: ROLES.teamOwner,
-        },
-      },
-    },
-  });
-
-  const teamIds = teams.map(a => a.id);
-
   if (cloudMode) {
     return transaction([
       client.website.updateMany({
@@ -159,26 +145,8 @@ export async function deleteUser(userId: string) {
     client.session.deleteMany({
       where: { websiteId: { in: websiteIds } },
     }),
-    client.teamUser.deleteMany({
-      where: {
-        OR: [
-          {
-            teamId: {
-              in: teamIds,
-            },
-          },
-          {
-            userId,
-          },
-        ],
-      },
-    }),
-    client.team.deleteMany({
-      where: {
-        id: {
-          in: teamIds,
-        },
-      },
+    client.websiteUser.deleteMany({
+      where: { userId },
     }),
     client.report.deleteMany({
       where: {
