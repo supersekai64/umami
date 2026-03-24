@@ -11,6 +11,8 @@ export const HOMEPAGE_URL = 'https://umami.is';
 export const DOCS_URL = 'https://umami.is/docs';
 export const REPO_URL = 'https://github.com/umami-software/umami';
 export const UPDATES_URL = 'https://api.umami.is/v1/updates';
+export const LINKS_URL = '';
+export const PIXELS_URL = '';
 export const TELEMETRY_PIXEL = 'https://i.umami.is/a.png';
 export const FAVICON_URL = 'https://icons.duckduckgo.com/ip3/{{domain}}.ico';
 
