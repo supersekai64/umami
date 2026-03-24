@@ -19,7 +19,7 @@ export async function getWebsiteUser(websiteId: string, userId: string) {
 }
 
 export async function getWebsiteUsers(criteria: WebsiteUserFindManyArgs, filters?: QueryFilters) {
-  const { search } = filters;
+  const { search } = filters || {};
 
   const where: Prisma.WebsiteUserWhereInput = {
     ...criteria.where,

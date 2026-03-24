@@ -59,7 +59,7 @@ export function WebsiteUserAddForm({
         <Button isDisabled={isPending} onPress={onClose}>
           {formatMessage(labels.cancel)}
         </Button>
-        <FormSubmitButton variant="primary" isDisabled={false}>
+        <FormSubmitButton variant="primary" isDisabled={isPending}>
           {formatMessage(labels.save)}
         </FormSubmitButton>
       </FormButtons>
